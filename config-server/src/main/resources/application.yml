@@ -5,8 +5,8 @@ spring:
     config:
       server:
         git:
-          uri: 
-          default-label: master
+          uri: https://github.com/ozgur48/4.5-project
+          default-label: main
           search-paths: 
             - configurations/
             - configurations/{application}
