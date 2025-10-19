@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ozgur48/4.5-project
+          default-label: main
+          search-paths:
+            - configurations/
+            - configurations/{application}
+server:
+  port: 8787
