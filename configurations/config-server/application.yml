@@ -1,6 +1,8 @@
 spring:
   application:
     name: config-server
+  server:
+    port: 8787
   cloud:
     config:
       server:
@@ -10,5 +12,4 @@ spring:
           search-paths:
             - configurations/
             - configurations/{application}
-server:
-  port: 8787
+
