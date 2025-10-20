@@ -1,0 +1,14 @@
+services:
+  productsv_db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: product_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: product_service_db_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - productdb_vol:/var/lib/postgres/data
+
+volumes:
+  productdb_vol: {}
