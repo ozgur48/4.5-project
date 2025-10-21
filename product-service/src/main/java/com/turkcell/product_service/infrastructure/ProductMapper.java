@@ -1,9 +1,11 @@
 package com.turkcell.product_service.infrastructure;
 
 import com.turkcell.product_service.domain.model.*;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class ProductMapper {
     public ProductEntity ToEntity(Product product){
         ProductEntity entity = new ProductEntity();
