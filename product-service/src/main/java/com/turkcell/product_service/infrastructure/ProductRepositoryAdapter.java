@@ -7,7 +7,10 @@ import java.util.UUID;
 import com.turkcell.product_service.domain.ProductRepository;
 import com.turkcell.product_service.domain.model.Product;
 import com.turkcell.product_service.domain.model.ProductId;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductRepositoryAdapter implements ProductRepository {
     private final JpaProductRepository jpaProductRepository;
     private final ProductMapper productMapper;
@@ -32,6 +35,14 @@ public class ProductRepositoryAdapter implements ProductRepository {
     public Optional<Product> findById(ProductId productid) {
         UUID uuid = UUID.fromString(productid.toString());
         return jpaProductRepository.findById(uuid).map(productMapper::toDomain);
+    }
+
+    @Override
+    public List<Product> findAllPaged(Integer pageIndex, Integer pageSize) {
+        return jpaProductRepository
+                .findAll(PageRequest.of(pageIndex, pageSize))
+                .stream()
+                .map(productMapper::toDomain).toList();
     }
 
     @Override
