@@ -1,13 +1,13 @@
 package com.turkcell.product_service.application.query;
 
+import org.springframework.stereotype.Component;
+
 import com.turkcell.product_service.application.dto.ProductResponse;
 import com.turkcell.product_service.application.mapper.ProductResponseMapper;
 import com.turkcell.product_service.core.cqrs.QueryHandler;
 import com.turkcell.product_service.core.exception.type.BusinessException;
 import com.turkcell.product_service.domain.ProductRepository;
-import com.turkcell.product_service.domain.model.Product;
 import com.turkcell.product_service.domain.model.ProductId;
-import org.springframework.stereotype.Component;
 
 @Component
 public class FindProductByIdQueryHandler implements QueryHandler<FindProductByIdQuery, ProductResponse> {
@@ -22,6 +22,8 @@ public class FindProductByIdQueryHandler implements QueryHandler<FindProductById
     @Override
     public ProductResponse handle(FindProductByIdQuery query) {
         ProductId productId = ProductId.of(query.id());
-        return productRepository.findById(productId).map(productResponseMapper::toResponse).orElseThrow(()-> new BusinessException("Id'li product bulunamadı"));
+        return productRepository.findById(productId)
+                .map(productResponseMapper::toResponse)
+                .orElseThrow(()-> new BusinessException("Id'li product bulunamadı"));
     }
 }
