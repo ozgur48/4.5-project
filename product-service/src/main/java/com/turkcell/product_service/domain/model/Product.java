@@ -44,6 +44,15 @@ public class Product {
         product.updatedAt = updatedAt;
         return product;
     }
+    public Product update(ProductName name, ProductDescription description, 
+    Price price, Currency currency, Stock stock ){
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.currency = currency;
+        this.stock = stock;
+        return this;
+    }
 
     // Business methods
     public void updateName(ProductName newName) {

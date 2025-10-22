@@ -1,9 +1,16 @@
 package com.turkcell.product_service.infrastructure;
 
-import com.turkcell.product_service.domain.model.*;
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+import com.turkcell.product_service.domain.model.Currency;
+import com.turkcell.product_service.domain.model.Price;
+import com.turkcell.product_service.domain.model.Product;
+import com.turkcell.product_service.domain.model.ProductDescription;
+import com.turkcell.product_service.domain.model.ProductId;
+import com.turkcell.product_service.domain.model.ProductName;
+import com.turkcell.product_service.domain.model.Stock;
 
 @Component
 public class ProductMapper {
@@ -17,7 +24,8 @@ public class ProductMapper {
         entity.setPrice(product.getPrice().getValue());
         entity.setCurrency(product.getCurrency().getCode());
         entity.setStock(product.getStock().getValue());
-
+        entity.setCreatedAt(product.getCreatedAt());
+        entity.setUpdatedAt(product.getUpdatedAt());
         return entity;
     }
     public Product toDomain(ProductEntity entity){
