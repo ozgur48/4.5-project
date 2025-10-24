@@ -2,14 +2,10 @@ package com.turkcell.product_service.interfaces.web;
 
 import java.util.List;
 
+import com.turkcell.product_service.application.command.DeleteProductByIdCommand;
+import com.turkcell.product_service.application.dto.DeletedProductResponse;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.turkcell.product_service.application.command.CreateProductCommand;
 import com.turkcell.product_service.application.command.UpdateProductCommand;
@@ -32,12 +28,14 @@ public class ProductsController {
     private final QueryHandler<FindProductByIdQuery, ProductResponse> findtProductByIdQueryHandler;
     private final CommandHandler<CreateProductCommand, CreatedProductResponse> createProductQueryHandler;
     private final CommandHandler<UpdateProductCommand, UpdatedProductResponse> updateProductQueryHandler;
+    private final CommandHandler<DeleteProductByIdCommand, DeletedProductResponse> deleteProductQueryHandler;
 
-    public ProductsController(QueryHandler<ListProductsQuery, List<ProductResponse>> listProductQueryHandler, QueryHandler<FindProductByIdQuery, ProductResponse> findtProductByIdQueryHandler, CommandHandler<CreateProductCommand, CreatedProductResponse> createProductQueryHandler, com.turkcell.product_service.core.cqrs.CommandHandler<com.turkcell.product_service.application.command.UpdateProductCommand,com.turkcell.product_service.application.dto.UpdatedProductResponse> updateProductQueryHandler) {
+    public ProductsController(QueryHandler<ListProductsQuery, List<ProductResponse>> listProductQueryHandler, QueryHandler<FindProductByIdQuery, ProductResponse> findtProductByIdQueryHandler, CommandHandler<CreateProductCommand, CreatedProductResponse> createProductQueryHandler, com.turkcell.product_service.core.cqrs.CommandHandler<com.turkcell.product_service.application.command.UpdateProductCommand,com.turkcell.product_service.application.dto.UpdatedProductResponse> updateProductQueryHandler, CommandHandler<DeleteProductByIdCommand, DeletedProductResponse> deleteProductQueryHandler) {
         this.listProductQueryHandler = listProductQueryHandler;
         this.findtProductByIdQueryHandler = findtProductByIdQueryHandler;
         this.createProductQueryHandler = createProductQueryHandler;
         this.updateProductQueryHandler = updateProductQueryHandler;
+        this.deleteProductQueryHandler = deleteProductQueryHandler;
     }
 
 
@@ -67,5 +65,11 @@ public class ProductsController {
         );
         return updateProductQueryHandler.handle(finalCommand);
     } 
-    
+    @DeleteMapping("/{id}")
+    public DeletedProductResponse delete(@Valid @PathVariable String id, DeleteProductByIdCommand deleteProductByIdCommand){
+        DeleteProductByIdCommand finalCommand = new DeleteProductByIdCommand(
+                id
+        );
+        return deleteProductQueryHandler.handle(finalCommand);
+    }
 }

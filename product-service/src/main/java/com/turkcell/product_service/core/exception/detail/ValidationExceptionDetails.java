@@ -10,11 +10,9 @@ public class ValidationExceptionDetails extends ExceptionDetails{
         super(message);
         this.validationErrors = validationErrors;
     }
-
     public List<ObjectError> getValidationErrors() {
         return validationErrors;
     }
-
     public void setValidationErrors(List<ObjectError> validationErrors) {
         this.validationErrors = validationErrors;
     }
