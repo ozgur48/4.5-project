@@ -10,11 +10,6 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    hibernate:
-      ddl-auto: update
   kafka:
     bootstrap-servers: localhost:9094
   cloud:
@@ -26,3 +21,8 @@ spring:
         orderCreated-in-0:
           destination: order-topic
           group: product-service
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
