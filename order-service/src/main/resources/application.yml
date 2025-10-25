@@ -1,3 +1,16 @@
 spring:
-    application:
-        name: order-service
+  kafka:
+    bootstrap-servers: localhost:9094
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9094
+      bindings:
+        orderCreated-out-0:
+          destination: order-topic
+          content-type: application/json
+  application:
+    name: order-service
+server:
+  port: 8082

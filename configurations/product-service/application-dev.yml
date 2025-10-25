@@ -15,3 +15,14 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  kafka:
+    bootstrap-servers: localhost:9094
+    cloud:
+      stream:
+        kafka:
+          binder:
+            brokers: localhost:9094
+        bindings:
+          orderCreated-in-0:
+            destination: order-topic
+            group: product-service
