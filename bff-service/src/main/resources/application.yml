@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: bff-service
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8585/realms/turkcell-p1-dev
+            user-name-attribute: preffered_username
+        registeration:
+          keycloak:
+            client-id: bff-service
+            client-secret: SqaF4BIjT0BYos5kT14hHbubQdDAqj6c
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registerationId}"
+            authorization-grant-type: authorization_code
+            scope: -openid
+              -profile
+              -email
+server:
+  port: 8686
