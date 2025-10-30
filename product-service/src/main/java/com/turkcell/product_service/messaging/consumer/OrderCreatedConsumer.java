@@ -1,9 +1,9 @@
 package com.turkcell.product_service.messaging.consumer;
 
+import java.util.function.Consumer;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.function.Consumer;
 
 @Configuration
 public class OrderCreatedConsumer {
@@ -11,7 +11,7 @@ public class OrderCreatedConsumer {
     public Consumer<OrderCreatedEvent> orderCreated(){
         return event -> {
             System.out.println("Yeni bir order create edildi");
-            System.out.println(event.productId);
+            System.out.println("Ürün ID:" + event.productId);
         };
     }
     record OrderCreatedEvent(String productId) {

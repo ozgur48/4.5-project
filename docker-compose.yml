@@ -9,6 +9,16 @@ services:
       - "5433:5432"
     volumes:
       - productdb_vol:/var/lib/postgres/data
+  ordersv_db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: order_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: order_service_db_password
+    ports:
+      - "5434:5432"
+    volumes:
+      - productdb_vol:/var/lib/postgres/data
   kafka:
     image: apache/kafka:3.8.0
     restart: unless-stopped
@@ -53,10 +63,43 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "kafka:9092"
     networks:
       - kafkanet
-
+  keycloak_db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    volumes:
+      - kc_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U keycloak -d keycloak" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.5
+    depends_on:
+      keycloak_db:
+        condition: service_healthy
+    command:
+      - start-dev
+      - --http-port=8585
+    ports:
+      - "8585:8585"
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
 volumes:
-  productdb_vol: {}
-  kafka-data: {}
+  productdb_vol: { }
+  kafka-data: { }
+  orderdb_vol: { }
+  kc_pg_data: { }
 
 networks:
   kafkanet:
