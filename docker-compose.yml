@@ -18,7 +18,17 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - productdb_vol:/var/lib/postgres/data
+      - orderdb_vol:/var/lib/postgres/data
+  paymentsv_db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: payment_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: payment_service_db_password
+    ports:
+      - "5435:5432"
+    volumes:
+      - paymentdb_vol:/var/lib/postgres/data
   kafka:
     image: apache/kafka:3.8.0
     restart: unless-stopped
@@ -99,6 +109,7 @@ volumes:
   productdb_vol: { }
   kafka-data: { }
   orderdb_vol: { }
+  paymentdb_vol: {}
   kc_pg_data: { }
 
 networks:
